@@ -18,7 +18,7 @@
     <!-- Header -->
     <div class="container mx-auto max-w-3xl pt-8 px-4">
         <div class="relative p-4 bg-white rounded-2xl shadow-lg">
-            <img src="{{ asset('images/banner-cafe.jpg') }}" class="w-full h-40 object-cover rounded-2xl">
+            <img src="{{ asset('images/banner-menu.jpg') }}" class="w-full h-40 object-cover rounded-2xl">
             <div class="absolute inset-4 bg-black/30 rounded-2xl flex items-end justify-center p-4">
                 @if(session('table_number'))
                     <div class="bg-gray-100/90 backdrop-blur-sm text-gray-800 font-bold py-3 px-8 rounded-lg shadow-md">
@@ -85,8 +85,26 @@
 
     <!-- Tombol Keranjang Mengambang -->
     <a href="{{ route('cart.index') }}" class="fixed bottom-6 right-6 bg-yellow-400 p-4 rounded-full shadow-lg transform hover:scale-110 transition-transform z-40">
+
+        @php
+            // Menghitung total kuantitas dari semua item di keranjang
+            $cart = (array) session('cart');
+            $totalCartQuantity = 0;
+            if (count($cart) > 0) {
+                $totalCartQuantity = array_sum(array_column($cart, 'quantity'));
+            }
+        @endphp
+
+        {{-- Menampilkan notifikasi jika ada item di keranjang --}}
+        @if($totalCartQuantity > 0)
+            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {{ $totalCartQuantity }}
+            </span>
+        @endif
+
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
     </a>
+
     
     {{-- Kode pop-up modal sudah tidak diperlukan lagi di sini karena kita menggunakan halaman detail terpisah --}}
 

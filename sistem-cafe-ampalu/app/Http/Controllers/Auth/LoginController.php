@@ -21,26 +21,19 @@ class LoginController extends Controller
         ]);
 
         // Coba login dengan email, password, DAN role
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+if (Auth::attempt($credentials)) {
+    $request->session()->regenerate();
+    $user = Auth::user();
 
-            // Ambil data pengguna yang sedang login
-            $user = Auth::user();
+    // Arahkan berdasarkan peran
+    if ($user->role == 'admin' || $user->role == 'dapur') {
+        return redirect()->intended('/admin/menu');
+    } elseif ($user->role == 'kasir') {
+        return redirect()->intended('/kasir/dashboard'); // <-- Tujuan baru untuk kasir
+    }
 
-            // Cek peran pengguna dan arahkan ke halaman yang sesuai
-            if ($user->role == 'dapur' || $user->role == 'admin') {
-                return redirect()->intended('/admin/menu');
-            }
-
-            // Jika perannya adalah kasir, arahkan ke dashboard kasir (nanti)
-            if ($user->role == 'kasir') {
-                // Untuk sekarang, kita arahkan ke halaman utama saja
-                return redirect('/'); 
-            }
-
-            // Redirect default jika tidak ada peran yang cocok
-            return redirect('/');
-        }
+    return redirect('/'); // Redirect default
+}
 
         // Jika login gagal, kembali dengan pesan error
         return back()->withErrors([
