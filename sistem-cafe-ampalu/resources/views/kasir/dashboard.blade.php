@@ -19,19 +19,19 @@
     </style>
 </head>
 <body x-data="{ sidebarOpen: false, customerModalOpen: false }">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="absolute inset-0 bg-black opacity-60"></div>
 
     <div class="relative min-h-screen">
         <div @click="sidebarOpen = false" class="fixed inset-0 bg-black opacity-50 z-30" x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-end="opacity-0" style="display: none;"></div>
-
         <aside 
             :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}"
-            class="fixed inset-y-0 left-0 w-64 bg-gray-800/80 backdrop-blur-lg text-white shadow-lg z-40 transform transition-transform duration-300">
+            class="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white shadow-lg z-40 transform transition-transform duration-300">
             <div class="p-6">
-                <h2 class="text-xl font-bold mb-6 text-white border-b border-gray-500 pb-4">Menu Navigasi</h2>
+                <h2 class="text-xl font-bold mb-6 text-white border-b border-gray-700 pb-4">Menu Navigasi</h2>
                 <nav class="flex flex-col space-y-2">
-                    <a href="#" class="text-lg text-gray-200 hover:bg-white/10 p-3 rounded-lg transition-colors">Kelola Pesanan</a>
-                    <a href="#" class="text-lg text-gray-200 hover:bg-white/10 p-3 rounded-lg transition-colors">Riwayat Pesanan</a>
+                    <a href="{{ route('kasir.index') }}" class="text-lg text-gray-300 hover:bg-white/10 p-3 rounded-lg transition-colors">Dashboard Utama</a>
+                    <a href="{{ route('admin.menu.index') }}" class="text-lg text-gray-300 hover:bg-white/10 p-3 rounded-lg transition-colors">Kelola Menu</a>
+                    <a href="{{ route('admin.orders.history') }}" class="text-lg text-gray-300 hover:bg-white/10 p-3 rounded-lg transition-colors">Riwayat Pesanan</a>
                 </nav>
             </div>
              <div class="mt-auto p-6 absolute bottom-0 w-full">
@@ -69,25 +69,12 @@
         </main>
     </div>
 
-    <div x-show="customerModalOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-90"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-90"
-         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-         style="display: none;">
-
+    <div x-show="customerModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" style="display: none;">
         <div @click.away="customerModalOpen = false" class="bg-gray-800/80 backdrop-blur-lg border border-white/20 rounded-lg shadow-xl p-6 w-full max-w-sm">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-white">Nama Pelanggan :</h3>
-                <button @click="customerModalOpen = false" class="text-gray-300 hover:text-white">&times;</button>
-            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Nama Pelanggan :</h3>
             <form action="{{ route('kasir.take_away.start') }}" method="POST">
                 @csrf
                 <input type="text" name="customer_name_popup" class="mt-1 block w-full px-3 py-2 bg-white/20 border border-white/30 text-white placeholder-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Masukkan Nama Anda" required>
-
                 <button type="submit" class="mt-6 w-full bg-white/90 text-gray-800 font-bold py-3 rounded-lg hover:bg-white transition-colors">
                     Simpan
                 </button>

@@ -1,58 +1,43 @@
 <?php
 
-// Lokasi: app/Http/Controllers/OrderController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB; // <-- Penting untuk transaksi database
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    /**
-     * Menyimpan pesanan baru ke database dari session keranjang.
-     */
-    public function store(Request $request)
-    {
-        // 1. Ambil data dari session
-        $cart = Session::get('cart', []);
-        $tableNumber = Session::get('table_number');
-        $customerName = Session::get('customer_name'); // Untuk take away
+    // ... (method store untuk pelanggan tetap sama) ...
 
-        // 2. Validasi: Pastikan keranjang tidak kosong dan ada identitas pemesan
-        if (empty($cart) || (!$tableNumber && !$customerName)) {
-            // Jika tidak valid, kembalikan ke halaman menu dengan pesan error
-            return redirect()->route('menu.index')->with('error', 'Gagal memproses pesanan. Silakan coba lagi.');
+    /**
+     * (DIPERBARUI) Menyimpan pesanan baru dari KASIR.
+     */
+    public function storeTakeaway(Request $request)
+    {
+        $cart = Session::get('admin_cart', []);
+        $customerName = Session::get('customer_name');
+
+        if (empty($cart) || !$customerName) {
+            return redirect()->route('kasir.dashboard')->with('error', 'Keranjang kasir kosong atau nama pelanggan tidak ada.');
         }
 
-        // Memulai transaksi database. Ini untuk memastikan semua data berhasil disimpan atau tidak sama sekali.
         DB::beginTransaction();
-
         try {
-            // 3. Hitung total harga dari semua item di keranjang
-            $totalPrice = 0;
-            foreach ($cart as $item) {
-                $totalPrice += $item['price'] * $item['quantity'];
-            }
+            $totalPrice = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
 
-            // 4. Tentukan metode pembayaran dan status pesanan awal
-            $paymentMethod = $request->input('payment_method', 'cashier'); // Default ke kasir
-            $orderStatus = 'menunggu_persetujuan'; // Status awal untuk alur persetujuan kasir
-
-            // 5. Buat record baru di tabel 'orders'
             $order = Order::create([
-                'table_number' => $tableNumber,
+                'table_number' => null,
                 'customer_name' => $customerName,
                 'total_price' => $totalPrice,
-                'status' => $orderStatus,
-                'payment_method' => $paymentMethod,
-                'payment_status' => 'pending', // Status pembayaran selalu 'pending' di awal
+                'status' => 'proses',
+                'payment_method' => 'cashier',
+                'payment_status' => 'paid',
             ]);
 
-            // 6. Buat record untuk setiap item di tabel 'order_items'
             foreach ($cart as $menuId => $details) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -63,24 +48,32 @@ class OrderController extends Controller
                 ]);
             }
 
-            // 7. Hapus data dari session setelah pesanan berhasil dibuat
-            Session::forget(['cart', 'table_number', 'customer_name']);
+            // ==========================================================
+            // ============== PERUBAHAN DI BAGIAN INI ===================
+            // ==========================================================
+            // Simpan nama pelanggan ke flash session sebelum dihapus
+            Session::flash('last_customer_name', $customerName);
+            
+            // Hapus sesi kasir setelah pesanan berhasil
+            Session::forget(['admin_cart', 'customer_name']);
 
-            // Jika semua proses di atas berhasil, konfirmasi transaksi database
             DB::commit();
 
-            // 8. Arahkan ke halaman "tunggu persetujuan" dengan membawa ID pesanan
-            return redirect()->route('payment.loading', ['order' => $order->id]);
+            return redirect()->route('kasir.order.success');
 
         } catch (\Exception $e) {
-            // Jika terjadi error di tengah jalan, batalkan semua operasi database
             DB::rollBack();
-            
-            // Log error untuk developer (opsional tapi sangat direkomendasikan)
-            // Log::error('Gagal membuat pesanan: ' . $e->getMessage());
-
-            // Kembali ke halaman keranjang dengan pesan error
-            return redirect()->route('cart.index')->with('error', 'Terjadi kesalahan saat memproses pesanan Anda. Silakan coba lagi.');
+            Log::error('Gagal membuat pesanan take away: ' . $e->getMessage());
+            return redirect()->route('kasir.cart.takeaway.index')->with('error', 'Terjadi kesalahan saat memproses pesanan.');
         }
+    }
+    
+    public function successTakeaway()
+    {
+        // Pastikan flash session ada, jika tidak, redirect ke dashboard
+        if (!session('last_customer_name')) {
+            return redirect()->route('kasir.dashboard');
+        }
+        return view('kasir.success');
     }
 }

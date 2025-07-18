@@ -132,11 +132,6 @@
                     </svg>
                 </a>
             </div>
-
-            <div class="flex items-center text-xs pt-3">
-                <span>POWERED BY</span>
-                <span class="ml-2 text-xl font-black italic">F</span>
-            </div>
         </div>
     </div>
     @endif
