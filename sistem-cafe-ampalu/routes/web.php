@@ -18,10 +18,15 @@ use App\Http\Controllers\Kasir\TakeawayCartController;
 | Rute untuk Pengguna Umum (Pelanggan)
 |--------------------------------------------------------------------------
 */
+// Rute untuk Pengguna Umum (Pelanggan)
 Route::get('/', [MenuController::class, 'showHome'])->name('home');
 Route::get('/menu', [MenuController::class, 'showMenu'])->name('menu.index');
-Route::post('/session/set-table', [OrderSessionController::class, 'setTable'])->name('session.setTable');
 Route::get('/menu/{menu}', [MenuController::class, 'showDetail'])->name('menu.detail');
+Route::post('/session/set-table', [OrderSessionController::class, 'setTable'])->name('session.setTable');
+
+// (BARU) Rute untuk Riwayat dan Status Pesanan Pelanggan
+Route::get('/order-history', [OrderController::class, 'history'])->name('order.history');
+Route::get('/order-status', [OrderController::class, 'status'])->name('order.status');
 
 // Rute keranjang untuk Pelanggan
 Route::post('/cart/add/{menu}', [CartController::class, 'add'])->name('cart.add');
@@ -81,3 +86,5 @@ Route::get('/checkout/payment', [PaymentController::class, 'show'])->name('payme
 Route::get('/payment/loading/{order}', [PaymentController::class, 'loading'])->name('payment.loading');
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/kasir/order/success', [OrderController::class, 'successTakeaway'])->name('kasir.order.success');
+Route::get('/order/{order}/summary', [PaymentController::class, 'showSummary'])->name('order.summary');
+Route::post('/order/{order}/confirm-payment', [PaymentController::class, 'confirmPaymentByCustomer'])->name('order.confirmPayment');

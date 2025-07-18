@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jul 2025 pada 13.43
+-- Waktu pembuatan: 18 Jul 2025 pada 16.56
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -194,7 +194,18 @@ INSERT INTO `orders` (`id`, `table_number`, `customer_name`, `total_price`, `sta
 (15, NULL, 'Fajar', 105000.00, 'selesai', 'cashier', 'paid', '2025-07-18 02:39:10', '2025-07-18 04:02:18'),
 (16, NULL, 'yoga', 159000.00, 'selesai', 'cashier', 'paid', '2025-07-18 03:07:26', '2025-07-18 04:01:49'),
 (17, NULL, 'adib', 136000.00, 'selesai', 'cashier', 'paid', '2025-07-18 03:51:14', '2025-07-18 03:51:49'),
-(18, NULL, 'yoga', 310000.00, 'selesai', 'cashier', 'paid', '2025-07-18 04:09:21', '2025-07-18 04:13:40');
+(18, NULL, 'yoga', 310000.00, 'selesai', 'cashier', 'paid', '2025-07-18 04:09:21', '2025-07-18 04:13:40'),
+(19, 33, NULL, 180000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 05:21:12', '2025-07-18 05:21:12'),
+(20, 11, NULL, 44000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 05:24:00', '2025-07-18 05:24:00'),
+(21, 11, NULL, 44000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 05:25:22', '2025-07-18 05:25:22'),
+(22, 11, NULL, 44000.00, 'selesai', 'cashier', 'paid', '2025-07-18 05:41:58', '2025-07-18 05:44:04'),
+(23, 11, NULL, 44000.00, 'selesai', 'cashier', 'paid', '2025-07-18 05:56:53', '2025-07-18 06:09:50'),
+(24, 12, NULL, 44000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 06:08:20', '2025-07-18 06:08:20'),
+(25, 11, NULL, 20000.00, 'selesai', 'cashier', 'paid', '2025-07-18 06:11:34', '2025-07-18 06:13:01'),
+(26, 11, NULL, 20000.00, 'proses', 'cashier', 'paid', '2025-07-18 06:31:42', '2025-07-18 06:31:45'),
+(27, 98, NULL, 20000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 06:51:46', '2025-07-18 06:51:46'),
+(28, 98, NULL, 20000.00, 'proses', 'cashier', 'paid', '2025-07-18 06:52:02', '2025-07-18 06:52:11'),
+(29, 11, NULL, 156000.00, 'proses', 'cashier', 'paid', '2025-07-18 06:53:05', '2025-07-18 06:53:07');
 
 -- --------------------------------------------------------
 
@@ -266,7 +277,26 @@ INSERT INTO `order_items` (`id`, `order_id`, `menu_id`, `quantity`, `price`, `no
 (46, 17, 4, 1, 24000.00, '', '2025-07-18 03:51:14', '2025-07-18 03:51:14'),
 (47, 18, 3, 5, 18000.00, '', '2025-07-18 04:09:21', '2025-07-18 04:09:21'),
 (48, 18, 10, 5, 19000.00, '', '2025-07-18 04:09:21', '2025-07-18 04:09:21'),
-(49, 18, 9, 5, 25000.00, '', '2025-07-18 04:09:21', '2025-07-18 04:09:21');
+(49, 18, 9, 5, 25000.00, '', '2025-07-18 04:09:21', '2025-07-18 04:09:21'),
+(50, 19, 5, 4, 20000.00, NULL, '2025-07-18 05:21:12', '2025-07-18 05:21:12'),
+(51, 19, 9, 4, 25000.00, NULL, '2025-07-18 05:21:12', '2025-07-18 05:21:12'),
+(52, 20, 8, 0, 20000.00, NULL, '2025-07-18 05:24:00', '2025-07-18 05:24:00'),
+(53, 20, 5, 1, 20000.00, NULL, '2025-07-18 05:24:00', '2025-07-18 05:24:00'),
+(54, 20, 4, 1, 24000.00, NULL, '2025-07-18 05:24:00', '2025-07-18 05:24:00'),
+(55, 21, 5, 1, 20000.00, NULL, '2025-07-18 05:25:22', '2025-07-18 05:25:22'),
+(56, 21, 4, 1, 24000.00, NULL, '2025-07-18 05:25:22', '2025-07-18 05:25:22'),
+(57, 22, 5, 1, 20000.00, NULL, '2025-07-18 05:41:58', '2025-07-18 05:41:58'),
+(58, 22, 4, 1, 24000.00, NULL, '2025-07-18 05:41:58', '2025-07-18 05:41:58'),
+(59, 23, 4, 1, 24000.00, NULL, '2025-07-18 05:56:53', '2025-07-18 05:56:53'),
+(60, 23, 5, 1, 20000.00, NULL, '2025-07-18 05:56:53', '2025-07-18 05:56:53'),
+(61, 24, 5, 1, 20000.00, NULL, '2025-07-18 06:08:20', '2025-07-18 06:08:20'),
+(62, 24, 4, 1, 24000.00, NULL, '2025-07-18 06:08:20', '2025-07-18 06:08:20'),
+(63, 25, 5, 1, 20000.00, NULL, '2025-07-18 06:11:34', '2025-07-18 06:11:34'),
+(64, 26, 5, 1, 20000.00, NULL, '2025-07-18 06:31:42', '2025-07-18 06:31:42'),
+(65, 27, 5, 1, 20000.00, NULL, '2025-07-18 06:51:46', '2025-07-18 06:51:46'),
+(66, 28, 5, 1, 20000.00, NULL, '2025-07-18 06:52:02', '2025-07-18 06:52:02'),
+(67, 29, 5, 3, 20000.00, NULL, '2025-07-18 06:53:05', '2025-07-18 06:53:05'),
+(68, 29, 4, 4, 24000.00, NULL, '2025-07-18 06:53:06', '2025-07-18 06:53:06');
 
 -- --------------------------------------------------------
 
@@ -300,7 +330,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('LejKwfZDcwn2zo0dAYjtMnUGOSrpN1JFQkdQn3xF', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiaUZJT2ZmMDhzUE9rd09aa3RyY0tSTzZtbXcydUc4T2tBbHJWdTN2USI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jaGVja291dC9wYXltZW50Ijt9czoxMjoidGFibGVfbnVtYmVyIjtzOjI6IjIyIjtzOjQ6ImNhcnQiO2E6Mjp7aTo1O2E6NTp7czo0OiJuYW1lIjtzOjE4OiJuYXNpIGdvcmVuZyBhbXBhbHUiO3M6ODoicXVhbnRpdHkiO2k6NDtzOjU6InByaWNlIjtzOjg6IjIwMDAwLjAwIjtzOjU6ImltYWdlIjtzOjQ0OiJPNEh6VkVHRFY1TElQQWFJS1hOUzNrWGZOWWF6SkZrU0x6bWxMbzQxLmpwZyI7czo1OiJub3RlcyI7Tjt9aTo5O2E6NTp7czo0OiJuYW1lIjtzOjEyOiJFcyBrcmltIHRhcm8iO3M6ODoicXVhbnRpdHkiO2k6NDtzOjU6InByaWNlIjtzOjg6IjI1MDAwLjAwIjtzOjU6ImltYWdlIjtzOjQ0OiI0bWlaeUNrb2x6Mjc2OFdjUGVWd1VobnpoSlNsMHJRUFNCbExEemExLmpwZyI7czo1OiJub3RlcyI7Tjt9fX0=', 1752837347);
+('GQovW8R6n4jL1n9gmQ44uXT7wsBydVMmaIAWriFr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYzcyTGVzWlNWNXNnemxIRW1xMkNKdkdsMEw1WmZrVXI4cUx5OVQ5SCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tZW51Ijt9czoxMjoidGFibGVfbnVtYmVyIjtzOjI6IjIyIjt9', 1752847654);
 
 -- --------------------------------------------------------
 
@@ -444,13 +474,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

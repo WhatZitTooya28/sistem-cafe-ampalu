@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Order; // <-- Tambahkan ini
 
 class MenuController extends Controller
 {
@@ -14,16 +15,25 @@ class MenuController extends Controller
 
     public function showMenu()
     {
-        // Ambil semua menu dan kelompokkan berdasarkan kolom 'category'
         $groupedMenus = Menu::all()->groupBy('category');
 
-        // Kirim data yang sudah dikelompokkan ke view 'menu'
-        return view('menu', ['groupedMenus' => $groupedMenus]);
+        // (BARU) Mengambil pesanan terakhir yang masih aktif untuk meja ini
+        $latestOrder = null;
+        if (session('table_number')) {
+            $latestOrder = Order::where('table_number', session('table_number'))
+                                ->whereIn('status', ['menunggu_pembayaran', 'proses', 'siap_diambil'])
+                                ->latest()
+                                ->first();
+        }
+
+        return view('menu', [
+            'groupedMenus' => $groupedMenus,
+            'latestOrder' => $latestOrder // Kirim data pesanan ke view
+        ]);
     }
 
-        public function showDetail(Menu $menu)
+    public function showDetail(Menu $menu)
     {
-        // Mengirim data menu yang dipilih ke view baru
         return view('menu-detail', compact('menu'));
     }
 }
