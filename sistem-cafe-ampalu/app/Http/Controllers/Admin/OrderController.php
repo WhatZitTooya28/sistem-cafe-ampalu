@@ -6,13 +6,17 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function index() {
-        $orders = Order::with('orderItems.menu')->where('status', 'proses')->latest()->get();
-        return view('admin.orders.index', compact('orders'));
-    }
+// app/Http/Controllers/Admin/OrderController.php
     public function history() {
-        $orders = Order::with('orderItems.menu')->where('status', 'selesai')->latest()->get();
+        // Tambahkan 'orderItems.rating'
+        $orders = Order::with('orderItems.menu', 'orderItems.rating')->where('status', 'selesai')->latest()->get();
         return view('admin.orders.history', compact('orders'));
+    }
+
+    public function index() {
+        // Tambahkan 'orderItems.rating'
+        $orders = Order::with('orderItems.menu', 'orderItems.rating')->where('status', 'proses')->latest()->get();
+        return view('admin.orders.index', compact('orders'));
     }
     public function complete(Order $order) {
         $order->update(['status' => 'selesai']);

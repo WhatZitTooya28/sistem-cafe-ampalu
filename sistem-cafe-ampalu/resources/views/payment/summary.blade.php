@@ -15,15 +15,17 @@
         <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
             
             <header class="flex items-center p-4 border-b">
-                <a href="{{ route('cart.index') }}" class="p-2"><svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></a>
+                <a href="{{ route('payment.show') }}" class="p-2">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
                 <h1 class="text-xl font-bold text-center flex-grow text-gray-800">Ringkasan Pesanan</h1>
             </header>
 
-            <main class="p-6 text-center">
+            <main class="p-6 text-center" x-data="{ open: false }">
                 <div class="bg-red-50 text-red-800 flex items-center justify-between py-2 px-4 rounded-full mb-6 border border-red-200">
                     <span class="text-sm font-semibold">Tipe Pesanan</span>
                     <div class="flex items-center space-x-2">
-                        <span class="font-bold">Makan di tempat</span>
+                        <span class="font-bold">{{ session('customer_name') ? 'Bawa Pulang' : 'Makan di Tempat' }}</span>
                         <div class="bg-green-500 text-white w-5 h-5 rounded-full flex items-center justify-center"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                     </div>
                 </div>
@@ -39,12 +41,16 @@
 
                 <div class="border-t my-6"></div>
                 
-                <div x-data="{ open: false }" class="bg-gray-50 p-4 rounded-lg text-left">
+                <div class="bg-gray-50 p-4 rounded-lg text-left">
                      @php $totalProducts = $order->orderItems->sum('quantity'); @endphp
                      <div class="space-y-2">
                         <div class="flex justify-between items-baseline">
                             <span class="font-semibold text-gray-600">Informasi Pelanggan :</span>
-                            <span class="font-bold text-gray-800">Nomor Meja : {{ $order->table_number }}</span>
+                            @if(session('customer_name'))
+                                <span class="font-bold text-gray-800">Nama : {{ session('customer_name') }}</span>
+                            @else
+                                <span class="font-bold text-gray-800">Nomor Meja : {{ $order->table_number }}</span>
+                            @endif
                         </div>
                         <div class="flex justify-between items-baseline">
                             <span class="font-semibold text-gray-600">Total Produk :</span>
@@ -79,16 +85,13 @@
                 <div class="mt-8">
                     <form action="{{ route('order.confirmPayment', $order->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="w-full block bg-orange-500 text-white font-bold py-3 rounded-full hover:bg-orange-600 transition-colors">
-                            Selesai
-                        </button>
+                        <button type="submit" class="w-full block bg-orange-500 text-white font-bold py-3 rounded-full hover:bg-orange-600 transition-colors">Selesai</button>
                     </form>
                 </div>
             </main>
         </div>
          <div class="text-center text-gray-400 text-sm py-6">
-            <span>POWERED BY</span>
-            <span class="ml-2 text-lg font-black italic">F</span>
+            <span>POWERED BY</span><span class="ml-2 text-lg font-black italic">F</span>
         </div>
     </div>
 </body>

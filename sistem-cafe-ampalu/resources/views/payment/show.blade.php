@@ -14,7 +14,7 @@
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
             
             <header class="flex items-center p-4 border-b border-gray-100">
-                <a href="{{ route('cart.index') }}" class="p-2 text-gray-500 hover:text-gray-900">
+                <a href="{{ url()->previous() }}" class="p-2 text-gray-500 hover:text-gray-900">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </a>
                 <h1 class="text-xl font-bold text-center flex-grow text-gray-800">Pembayaran</h1>
@@ -25,7 +25,7 @@
                     <div class="bg-orange-100 text-orange-800 flex items-center justify-between py-2 px-4 rounded-full mb-6">
                         <span class="text-sm font-semibold">Tipe Pesanan</span>
                         <div class="flex items-center space-x-2">
-                            <span class="font-bold">Makan di tempat</span>
+                            <span class="font-bold">{{ session('customer_name') ? 'Bawa Pulang' : 'Makan di Tempat' }}</span>
                             <div class="bg-green-500 text-white w-5 h-5 rounded-full flex items-center justify-center">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
@@ -39,10 +39,18 @@
                             $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
                         @endphp
                         <div class="space-y-3">
-                            <div class="bg-gray-100 p-3 rounded-full flex items-center space-x-3 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                                <p>Nomor Meja : <span class="font-bold">{{ session('table_number', 'N/A') }}</span></p>
-                            </div>
+                            @if(session('customer_name'))
+                                <div class="bg-gray-100 p-3 rounded-full flex items-center space-x-3 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                    <p>Nama Pelanggan : <span class="font-bold">{{ session('customer_name') }}</span></p>
+                                </div>
+                            @else
+                                <div class="bg-gray-100 p-3 rounded-full flex items-center space-x-3 text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                    <p>Nomor Meja : <span class="font-bold">{{ session('table_number', 'N/A') }}</span></p>
+                                </div>
+                            @endif
+
                             <div class="bg-gray-100 p-3 rounded-full flex items-center space-x-3 text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 12v-2m0-10a9 9 0 110 18 9 9 0 010-18z" /></svg>
                                 <p>Total : <span class="font-bold">Rp. {{ number_format($total, 0, ',', '.') }}</span></p>

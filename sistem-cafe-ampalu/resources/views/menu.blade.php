@@ -17,13 +17,19 @@
     <div class="container mx-auto max-w-3xl pt-8 px-4">
         <div class="relative p-4 bg-white rounded-2xl shadow-lg">
             <img src="{{ asset('images/banner-menu.jpg') }}" class="w-full h-40 object-cover rounded-2xl">
+            
             <div class="absolute inset-4 bg-black/30 rounded-2xl flex items-end justify-center p-4">
                 @if(session('table_number'))
                     <div class="bg-gray-100/90 backdrop-blur-sm text-gray-800 font-bold py-3 px-8 rounded-lg shadow-md">
                         NOMOR MEJA ANDA : {{ session('table_number') }}
                     </div>
+                @elseif(session('customer_name'))
+                    <div class="bg-gray-100/90 backdrop-blur-sm text-gray-800 font-bold py-3 px-8 rounded-lg shadow-md">
+                        NAMA PEMESAN : {{ session('customer_name') }}
+                    </div>
                 @endif
             </div>
+
             <a href="/" class="absolute top-6 left-6 bg-white/80 rounded-full p-2 hover:bg-white transition-colors"><svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></a>
             
             <div class="absolute top-6 right-6 flex space-x-2">
@@ -108,12 +114,12 @@
             <button @click="isSidebarOpen = false" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             <div class="text-center mb-8">
                 <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto flex items-center justify-center mb-3"><svg class="w-12 h-12 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg></div>
-                <h2 class="font-bold text-lg">Hai, Table {{ session('table_number', 'N/A') }}</h2>
+                <h2 class="font-bold text-lg">Hai, {{ session('customer_name') ?: 'Table '.session('table_number', 'N/A') }}</h2>
             </div>
             <nav class="space-y-3">
                 <a href="{{ route('order.history') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/material-symbols/receipt-long-outline.svg?color=%23888888" class="w-6 h-6"><span>Order History</span></a>
                 <a href="{{ route('order.status') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/icon-park-outline/handle-right.svg?color=%23888888" class="w-6 h-6"><span>Status Orders</span></a>
-                <a href="{{ route('order.history') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/material-symbols/hotel-class-outline-rounded.svg?color=%23888888" class="w-6 h-6"><span>Rating menu</span></a>
+                <a href="{{ route('rating.latest') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/material-symbols/hotel-class-outline-rounded.svg?color=%23888888" class="w-6 h-6"><span>Rating menu</span></a>
             </nav>
             <div class="mt-auto text-center text-gray-400 text-sm">
                 <span>POWERED BY</span><span class="ml-2 text-lg font-black italic">F</span>

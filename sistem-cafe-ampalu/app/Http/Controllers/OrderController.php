@@ -15,14 +15,13 @@ class OrderController extends Controller
     {
         $cart = Session::get('cart', []);
         $tableNumber = Session::get('table_number');
+        $customerName = Session::get('customer_name'); // Untuk take away
 
-        if (empty($cart) || !$tableNumber) {
-            return redirect()->route('menu.index')->with('error', 'Gagal memproses pesanan. Silakan coba lagi.');
+        if (empty($cart) || (!$tableNumber && !$customerName)) {
+            return redirect()->route('menu.index')->with('error', 'Gagal memproses pesanan.');
         }
 
         $paymentMethod = $request->input('payment_method');
-
-        // Jika tidak ada metode pembayaran yang dipilih, kembali dengan error
         if (!$paymentMethod) {
             return redirect()->back()->with('error', 'Silakan pilih metode pembayaran.');
         }
@@ -31,11 +30,11 @@ class OrderController extends Controller
         try {
             $totalPrice = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
 
-            // Tentukan status berdasarkan metode pembayaran
-            $orderStatus = ($paymentMethod == 'cashier') ? 'menunggu_pembayaran' : 'menunggu_persetujuan';
+            $orderStatus = 'menunggu_pembayaran'; // Status awal untuk semua pesanan
 
             $order = Order::create([
                 'table_number' => $tableNumber,
+                'customer_name' => $customerName, // Akan null jika makan di tempat
                 'total_price' => $totalPrice,
                 'status' => $orderStatus,
                 'payment_method' => $paymentMethod,
@@ -52,26 +51,24 @@ class OrderController extends Controller
                 ]);
             }
 
-            Session::forget(['cart']); // Hanya hapus keranjang, nomor meja mungkin masih perlu
-
+            Session::forget(['cart']);
             DB::commit();
 
-            // LOGIKA PENGALIHAN BARU
-            if ($paymentMethod == 'cashier') {
-                // Jika bayar di kasir, arahkan ke halaman ringkasan dengan QR Code
+            // LOGIKA PENGALIHAN YANG DIPERBAIKI
+            if ($paymentMethod == 'qris') {
+                return redirect()->route('payment.qris', ['order' => $order->id]);
+            } else { // Ini berlaku untuk 'cashier' atau metode lainnya
                 return redirect()->route('order.summary', ['order' => $order->id]);
-            } else {
-                // Jika metode lain (misal: QRIS online), arahkan ke halaman loading
-                return redirect()->route('payment.loading', ['order' => $order->id]);
             }
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Gagal membuat pesanan: ' . $e->getMessage());
-            return redirect()->route('cart.index')->with('error', 'Terjadi kesalahan saat memproses pesanan Anda.');
+            return redirect()->route('cart.index')->with('error', 'Terjadi kesalahan saat memproses pesanan.');
         }
     }
-
+    
+    
 
     /**
      * (DIPERBARUI) Menyimpan pesanan baru dari KASIR.
@@ -137,35 +134,52 @@ class OrderController extends Controller
         return view('kasir.success');
     }
 
-    public function history()
+   public function history()
     {
-        if (!session('table_number')) {
-            return redirect()->route('home')->with('error', 'Silakan masukkan nomor meja terlebih dahulu.');
+        $tableNumber = session('table_number');
+        $customerName = session('customer_name');
+
+        if (!$tableNumber && !$customerName) {
+            return redirect()->route('home')->with('error', 'Sesi Anda tidak ditemukan. Silakan mulai lagi.');
         }
 
-        $orders = Order::with('orderItems.menu')
-            ->where('table_number', session('table_number'))
-            ->where('status', 'selesai') // Hanya ambil pesanan yang sudah selesai
-            ->latest()
-            ->get();
+        $query = Order::with('orderItems.menu');
+
+        if ($tableNumber) {
+            $query->where('table_number', $tableNumber);
+        } elseif ($customerName) {
+            $query->where('customer_name', $customerName);
+        }
+        
+        $orders = $query->latest()->get();
 
         return view('orders.history', compact('orders'));
     }
 
     /**
-     * (BARU) Menampilkan status pesanan yang sedang aktif untuk pelanggan.
+     * (DIPERBARUI) Menampilkan status pesanan yang sedang aktif untuk pelanggan.
+     * Sekarang bisa menangani Nomor Meja dan Nama Pelanggan.
      */
     public function status()
     {
-        if (!session('table_number')) {
-            return redirect()->route('home')->with('error', 'Silakan masukkan nomor meja terlebih dahulu.');
+        $tableNumber = session('table_number');
+        $customerName = session('customer_name');
+
+        if (!$tableNumber && !$customerName) {
+            return redirect()->route('home')->with('error', 'Sesi Anda tidak ditemukan. Silakan mulai lagi.');
         }
 
-        $order = Order::where('table_number', session('table_number'))
-            ->whereIn('status', ['menunggu_pembayaran', 'proses', 'siap_diambil']) // Ambil pesanan yang masih aktif
-            ->latest()
-            ->first();
+        $query = Order::whereIn('status', ['menunggu_pembayaran', 'proses', 'siap_diambil']);
+
+        if ($tableNumber) {
+            $query->where('table_number', $tableNumber);
+        } elseif ($customerName) {
+            $query->where('customer_name', $customerName);
+        }
+
+        $order = $query->latest()->first();
 
         return view('orders.status', compact('order'));
     }
+
 }
