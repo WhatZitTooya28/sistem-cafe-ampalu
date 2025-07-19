@@ -121,8 +121,8 @@
                 <a href="{{ route('order.status') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/icon-park-outline/handle-right.svg?color=%23888888" class="w-6 h-6"><span>Status Orders</span></a>
                 <a href="{{ route('rating.latest') }}" class="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg text-gray-700 font-semibold"><img src="https://api.iconify.design/material-symbols/hotel-class-outline-rounded.svg?color=%23888888" class="w-6 h-6"><span>Rating menu</span></a>
             </nav>
-            <div class="mt-auto text-center text-gray-400 text-sm">
-                <span>POWERED BY</span><span class="ml-2 text-lg font-black italic">F</span>
+            <div class="mt-auto flex justify-center">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
             </div>
         </div>
     </div>

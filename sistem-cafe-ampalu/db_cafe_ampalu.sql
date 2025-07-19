@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jul 2025 pada 03.51
+-- Waktu pembuatan: 19 Jul 2025 pada 05.20
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -270,7 +270,16 @@ INSERT INTO `orders` (`id`, `table_number`, `customer_name`, `total_price`, `sta
 (90, NULL, 'aziz', 80000.00, 'proses', 'qris', 'paid', '2025-07-18 18:34:05', '2025-07-18 18:34:12'),
 (91, NULL, 'aziz', 60000.00, 'proses', 'cashier', 'paid', '2025-07-18 18:47:36', '2025-07-18 18:47:39'),
 (92, 900, NULL, 60000.00, 'proses', 'cashier', 'paid', '2025-07-18 18:48:28', '2025-07-18 18:48:34'),
-(93, NULL, 'asep', 100000.00, 'selesai', 'qris', 'paid', '2025-07-18 18:49:38', '2025-07-18 18:50:08');
+(93, NULL, 'asep', 100000.00, 'selesai', 'qris', 'paid', '2025-07-18 18:49:38', '2025-07-18 18:50:08'),
+(94, 1, NULL, 40000.00, 'selesai', 'cashier', 'paid', '2025-07-18 19:10:05', '2025-07-18 19:12:07'),
+(95, NULL, 'kom', 20000.00, 'dibatalkan', 'qris', 'pending', '2025-07-18 19:36:09', '2025-07-18 19:45:41'),
+(96, NULL, 'kom', 400000.00, 'dibatalkan', 'qris', 'pending', '2025-07-18 19:46:00', '2025-07-18 19:46:08'),
+(97, NULL, 'kom', 200000.00, 'proses', 'cashier', 'paid', '2025-07-18 19:46:23', '2025-07-18 19:46:27'),
+(98, NULL, 'asep', 40000.00, 'dibatalkan', 'qris', 'pending', '2025-07-18 19:50:28', '2025-07-18 19:50:46'),
+(99, NULL, 'asep', 60000.00, 'proses', 'cashier', 'paid', '2025-07-18 19:50:53', '2025-07-18 19:50:56'),
+(100, 2, NULL, 20000.00, 'proses', 'cashier', 'paid', '2025-07-18 20:13:03', '2025-07-18 20:13:43'),
+(101, NULL, 'dd', 40000.00, 'menunggu_pembayaran', 'cashier', 'pending', '2025-07-18 20:14:47', '2025-07-18 20:14:47'),
+(102, NULL, 'dd', 60000.00, 'proses', 'qris', 'paid', '2025-07-18 20:14:58', '2025-07-18 20:15:36');
 
 -- --------------------------------------------------------
 
@@ -433,7 +442,16 @@ INSERT INTO `order_items` (`id`, `order_id`, `menu_id`, `quantity`, `price`, `no
 (137, 90, 5, 4, 20000.00, NULL, '2025-07-18 18:34:05', '2025-07-18 18:34:05'),
 (138, 91, 5, 3, 20000.00, NULL, '2025-07-18 18:47:36', '2025-07-18 18:47:36'),
 (139, 92, 5, 3, 20000.00, NULL, '2025-07-18 18:48:28', '2025-07-18 18:48:28'),
-(140, 93, 5, 5, 20000.00, NULL, '2025-07-18 18:49:38', '2025-07-18 18:49:38');
+(140, 93, 5, 5, 20000.00, NULL, '2025-07-18 18:49:38', '2025-07-18 18:49:38'),
+(141, 94, 5, 2, 20000.00, NULL, '2025-07-18 19:10:05', '2025-07-18 19:10:05'),
+(142, 95, 5, 1, 20000.00, NULL, '2025-07-18 19:36:09', '2025-07-18 19:36:09'),
+(143, 96, 5, 20, 20000.00, NULL, '2025-07-18 19:46:00', '2025-07-18 19:46:00'),
+(144, 97, 5, 10, 20000.00, NULL, '2025-07-18 19:46:23', '2025-07-18 19:46:23'),
+(145, 98, 5, 2, 20000.00, NULL, '2025-07-18 19:50:28', '2025-07-18 19:50:28'),
+(146, 99, 5, 3, 20000.00, NULL, '2025-07-18 19:50:53', '2025-07-18 19:50:53'),
+(147, 100, 5, 1, 20000.00, NULL, '2025-07-18 20:13:03', '2025-07-18 20:13:03'),
+(148, 101, 5, 2, 20000.00, NULL, '2025-07-18 20:14:47', '2025-07-18 20:14:47'),
+(149, 102, 5, 3, 20000.00, NULL, '2025-07-18 20:14:58', '2025-07-18 20:14:58');
 
 -- --------------------------------------------------------
 
@@ -473,7 +491,9 @@ INSERT INTO `ratings` (`id`, `order_item_id`, `rating`, `review`, `created_at`, 
 (4, 86, 5, 'enak', '2025-07-18 15:51:52', '2025-07-18 15:51:52'),
 (5, 137, 5, NULL, '2025-07-18 18:45:21', '2025-07-18 18:45:21'),
 (6, 139, 5, NULL, '2025-07-18 18:48:53', '2025-07-18 18:48:53'),
-(7, 140, 5, NULL, '2025-07-18 18:49:57', '2025-07-18 18:50:26');
+(7, 140, 5, NULL, '2025-07-18 18:49:57', '2025-07-18 18:50:26'),
+(8, 141, 5, 'Hai', '2025-07-18 19:10:28', '2025-07-18 19:10:28'),
+(9, 146, 5, NULL, '2025-07-18 19:51:15', '2025-07-18 19:51:15');
 
 -- --------------------------------------------------------
 
@@ -495,7 +515,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('oEWEANwuG3nsCar5nKdq5wEjJlFNELi8zUWieOEw', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQ0pHem9wYmVhaHYzUm9XUXJEZ0tKRXd6cWtBdDJtdE1pbnlTY01ldyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6MTM6ImN1c3RvbWVyX25hbWUiO3M6NDoiYXNlcCI7fQ==', 1752889830);
+('zupcH6OX2yKnrIcgXOwN3Q7ZH3pYQxd53AxzO01A', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiSXRNakxWY1lIdzRDbG1VekZuVVFTUDE3Y05CYVFxNzQ4dm5WT1VuRiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1752895025);
 
 -- --------------------------------------------------------
 
@@ -646,19 +666,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT untuk tabel `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

@@ -74,8 +74,8 @@
             </form>
         </div>
         <!-- Footer -->
-        <div class="text-center mt-4">
-            <p class="text-xs text-gray-400 font-semibold">Ampalu Cafe © 2025</p>
+        <div class="flex justify-center mt-4">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </div>
     </div>
 </body>

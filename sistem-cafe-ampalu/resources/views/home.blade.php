@@ -16,7 +16,12 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4" x-data="{ isDineInModalOpen: false, isTakeAwayModalOpen: false }">
+<body class="flex items-center justify-center min-h-screen p-4" 
+      x-data="{ 
+          isDineInModalOpen: false, 
+          isTakeAwayModalOpen: false,
+          isErrorModalOpen: {{ session('error') ? 'true' : 'false' }} 
+      }">
 
     <div class="absolute inset-0 bg-black opacity-50"></div>
 
@@ -25,9 +30,10 @@
             <a href="{{ route('login') }}" class="bg-white text-gray-800 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-gray-100">login</a>
         </div>
         <div class="w-full">
-            <img src="{{ asset('images/banner-cafe.jpg') }}" alt="Banner Cafe Ampalu" class="w-full h-64 object-cover rounded-t-2xl">
+            <img src="{{ asset('images/banner-cafe.jpg') }}" alt="Banner Cafe Ampalu" class="w-full h-64 object-cover">
         </div>
         <div class="p-8 text-gray-800 text-center">
+            
             <h1 class="text-2xl font-bold mb-4">Cara menggunakan SAC Order</h1>
             <div class="flex items-center justify-center mb-8">
                 <img src="{{ asset('images/alur-pemesanan.png') }}" alt="Alur Pesan Bayar Makan" class="max-w-xs w-full h-auto">
@@ -42,10 +48,32 @@
                 </button>
             </div>
             <div class="mt-10">
-                <p class="text-xs text-gray-400 font-semibold">Ampalu Cafe © 2025</p>
+                <div class="flex items-center justify-center">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
+                </div>
             </div>
         </div>
     </div>
+
+    @if(session('error'))
+        <div x-show="isErrorModalOpen"
+             x-transition
+             class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+             style="display: none;">
+    
+            <div @click.away="isErrorModalOpen = false" class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Gagal Memulai Sesi!</h3>
+                <p class="text-gray-600 mb-6">{{ session('error') }}</p>
+                <button @click="isErrorModalOpen = false" class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">
+                    Mengerti
+                </button>
+            </div>
+        </div>
+    @endif
+
 
     <div x-show="isDineInModalOpen" x-transition class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" style="display: none;">
         <div @click.away="isDineInModalOpen = false" class="bg-white rounded-lg shadow-xl p-8 w-full max-w-sm">

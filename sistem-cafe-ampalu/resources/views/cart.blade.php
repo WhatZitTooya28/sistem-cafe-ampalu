@@ -111,8 +111,7 @@
             </div>
 
             <div class="flex items-center text-xs pt-3 text-white/80">
-                <span>POWERED BY</span>
-                <span class="ml-2 text-xl font-black italic">F</span>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
             </div>
         </div>
     </div>

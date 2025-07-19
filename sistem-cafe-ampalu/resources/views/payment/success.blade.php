@@ -36,9 +36,8 @@
             </a>
         </div>
 
-        <div class="absolute bottom-6 text-center text-gray-400 text-sm">
-            <span>POWERED BY</span>
-            <span class="ml-2 text-lg font-black italic">F</span>
+        <div class="absolute bottom-6 flex justify-center">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </div>
     </div>
 

@@ -90,8 +90,8 @@
                 </div>
             </main>
         </div>
-         <div class="text-center text-gray-400 text-sm py-6">
-            <span>POWERED BY</span><span class="ml-2 text-lg font-black italic">F</span>
+         <div class="flex justify-center py-6">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
         </div>
     </div>
 </body>
